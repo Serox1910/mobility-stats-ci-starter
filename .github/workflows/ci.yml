@@ -8,7 +8,12 @@ permissions:
   contents: read
 
 jobs:
-  quality:
+    quality:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.13"]
+
     runs-on: ubuntu-latest
 
     steps:
@@ -26,3 +31,6 @@ jobs:
 
       - name: Check formatting
         run: uv run --locked ruff format --check .
+
+      - name: Run tests
+        run: uv run --locked pytest -q
